@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Clicker Game</h1>
+    <p>Clicks: <span id="count">0</span></p>
+    <button onclick="addClick()">Click Me!</button>
+    <br><br>
+    <a href="index.html"><button>Back to Home</button></a>
+
+    <audio id="clickSound" src="https://www.fesliyanstudios.com/play-mp3/387"></audio>
+
+    <script>
+        let count = 0;
+        function addClick() {
+            count++;
+            document.getElementById('count').innerText = count;
+            let sound = document.getElementById('clickSound');
+            sound.currentTime = 0;
+            sound.play();
+        }
+    </script>
+</body>
+</html>

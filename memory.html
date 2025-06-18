@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Memory Game</h1>
+    <div class="board" id="memoryBoard"></div>
+    <a href="index.html"><button>Back to Home</button></a>
+
+    <audio id="clickSound" src="https://www.fesliyanstudios.com/play-mp3/387"></audio>
+
+    <script>
+        let cards = ['A', 'A', 'B', 'B', 'C', 'C'];
+        let flipped = [];
+        let matched = [];
+        let board = document.getElementById('memoryBoard');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function renderBoard() {
+            shuffle(cards);
+            board.innerHTML = '';
+            cards.forEach((card, index) => {
+                let cardElement = document.createElement('div');
+                cardElement.className = 'cell';
+                cardElement.dataset.index = index;
+                cardElement.onclick = () => flipCard(index, cardElement);
+                board.appendChild(cardElement);
+            });
+        }
+
+        function flipCard(index, element) {
+            if (flipped.length < 2 && !flipped.includes(index) && !matched.includes(index)) {
+                element.innerText = cards[index];
+                flipped.push(index);
+                let sound = document.getElementById('clickSound');
+                sound.currentTime = 0;
+                sound.play();
+
+                if (flipped.length === 2) {
+                    setTimeout(checkMatch, 500);
+                }
+            }
+        }
+
+        function checkMatch() {
+            let [first, second] = flipped;
+            if (cards[first] === cards[second]) {
+                matched.push(first, second);
+            } else {
+                document.querySelectorAll('.cell')[first].innerText = '';
+                document.querySelectorAll('.cell')[second].innerText = '';
+            }
+            flipped = [];
+        }
+
+        renderBoard();
+    </script>
+</body>
+</html>
